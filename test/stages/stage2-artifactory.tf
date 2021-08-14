@@ -10,4 +10,5 @@ module "gitops_artifactory" {
   cluster_ingress_hostname = "test"
   cluster_type             = "ocp4"
   tls_secret_name          = "test"
+  server_name = module.gitops.server_name
 }

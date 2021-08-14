@@ -94,3 +94,9 @@ variable "persistence" {
   description = "Flag to indicate if persistence should be enabled"
   default     = true
 }
+
+variable "server_name" {
+  type        = string
+  description = "The name of the server"
+  default     = "default"
+}

@@ -1,11 +1,8 @@
 locals {
-  chart_dir              = "${path.cwd}/.tmp/artifactory/chart/${local.chart_name}"
-  tmp_dir                = "${path.cwd}/.tmp"
+  bin_dir                = "${path.cwd}/bin"
+  yaml_dir               = "${path.cwd}/.tmp/artifactory"
   ingress_host           = "artifactory-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url            = "https://${local.ingress_host}"
-  config_name            = "artifactory-config"
-  secret_name            = "artifactory-access"
-  chart_name             = "artifactory"
   service_name           = "artifactory-artifactory"
   sa_name                = "artifactory-artifactory"
   config_sa_name         = "artifactory-config"
@@ -24,6 +21,29 @@ locals {
       adminAccess = {
         password = "admin"
       }
+      persistence = {
+        enabled = true
+        storageClassName = ""
+        size = "5Gi"
+      }
+      uid = 0
+    }
+    ingress = {
+      enabled = false
+    }
+    postgresql = {
+      enabled = false
+    }
+    nginx = {
+      enabled = false
+    }
+    serviceAccount = {
+      create = true
+      name = local.sa_name
+    }
+  }
+  artifactory_server_config = {
+    artifactory = {
       persistence = {
         enabled = var.persistence
         storageClassName = var.storage_class
@@ -93,46 +113,56 @@ locals {
       key  = "ARTIFACTORY_URL"
     }
   }
+
   layer = "services"
-  application_branch = "main"
-  layer_config = var.gitops_config[local.layer]
   name = "artifactory"
+
   values_content = {
-    global = local.global_config
     artifactory = local.artifactory_config
     ocp-route = local.ocp_route_config
     tool-config = local.tool_config
     setup-job = local.job_config
   }
+  values_server_content = {
+    global = local.global_config
+    artifactory = local.artifactory_server_config
+  }
+
+  values_file = "values-${var.server_name}.yaml"
 }
 
-resource null_resource setup_chart {
+resource null_resource setup_binaries {
   provisioner "local-exec" {
-    command = "mkdir -p ${local.chart_dir} && cp -R ${path.module}/chart/${local.chart_name}/* ${local.chart_dir} && echo '${yamlencode(local.values_content)}' > ${local.chart_dir}/values.yaml"
+    command = "${path.module}/scripts/setup-binaries.sh"
+
+    environment = {
+      BIN_DIR = local.bin_dir
+    }
   }
 }
 
-resource null_resource setup_gitops {
-  depends_on = [null_resource.setup_chart]
+resource null_resource create_yaml {
+  depends_on = [null_resource.setup_binaries]
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/setup-gitops.sh '${local.name}' '${local.chart_dir}' '${local.name}' '${local.application_branch}' '${var.namespace}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.yaml_dir}' '${local.values_file}'"
 
     environment = {
-      GIT_CREDENTIALS = jsonencode(var.git_credentials)
-      GITOPS_CONFIG = jsonencode(local.layer_config)
+      VALUES_CONTENT = yamlencode(local.values_content)
+      VALUES_SERVER_CONTENT = yamlencode(local.values_server_content)
     }
   }
 }
 
 module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git"
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
   namespace = var.namespace
   name = local.sa_name
   sccs = ["anyuid", "privileged"]
+  server_name = var.server_name
 }
 
 module "config_service_account" {
@@ -154,4 +184,18 @@ module "config_service_account" {
       "*"
     ]
   }]
+  server_name = var.server_name
+}
+
+resource null_resource setup_gitops {
+  depends_on = [null_resource.create_yaml, module.service_account, module.config_service_account]
+
+  provisioner "local-exec" {
+    command = "$(command -v igc || command -v ${local.bin_dir}/igc) gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}' --valueFiles 'values.yaml,${local.values_file}'"
+
+    environment = {
+      GIT_CREDENTIALS = yamlencode(var.git_credentials)
+      GITOPS_CONFIG   = yamlencode(var.gitops_config)
+    }
+  }
 }
