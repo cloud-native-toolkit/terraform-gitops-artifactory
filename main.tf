@@ -147,7 +147,7 @@ resource null_resource create_yaml {
 }
 
 module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=debug"
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
@@ -158,7 +158,7 @@ module "service_account" {
 }
 
 module "config_service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account?ref=debug"
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
