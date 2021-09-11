@@ -93,7 +93,6 @@ locals {
   }
   tool_config            = {
     name = "Artifactory"
-    url = local.ingress_url
     privateUrl = "http://${local.service_name}.${var.namespace}:8082"
     username = "admin"
     password = "password"
