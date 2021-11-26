@@ -33,6 +33,7 @@ jobs:
         name: Set up variables
         run: |
           repo=$(echo ${GITHUB_REPOSITORY} | sed -E "s~.*/[^-]+-(.*)~\1~g")
+          echo "Repo: $repo"
           echo "::set-output name=repo::$repo"
 
       - name: Verify deploy on ${{ matrix.platform }}
