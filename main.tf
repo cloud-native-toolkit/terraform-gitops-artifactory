@@ -158,6 +158,7 @@ module "service_account" {
 
 module "config_service_account" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
+  depends_on = [module.service_account]
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
