@@ -1,7 +1,6 @@
 locals {
-  bin_dir = module.setup_clis.bin_dir
-  yaml_dir               = "${path.cwd}/.tmp/artifactory"
   bin_dir                = module.setup_clis.bin_dir
+  yaml_dir               = "${path.cwd}/.tmp/artifactory"
   ingress_host           = "artifactory-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url            = "https://${local.ingress_host}"
   service_name           = "artifactory-artifactory"
