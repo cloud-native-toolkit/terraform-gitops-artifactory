@@ -180,19 +180,6 @@ module "config_service_account" {
   server_name = var.server_name
 }
 
-/*resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml, module.service_account, module.config_service_account]
-
-  provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}' --valueFiles 'values.yaml,${local.values_file}'"
-
-    environment = {
-      GIT_CREDENTIALS = nonsensitive(yamlencode(var.git_credentials))
-      GITOPS_CONFIG   = yamlencode(var.gitops_config)
-    }
-  }
-}*/
-
 resource null_resource setup_gitops {
   depends_on = [null_resource.create_yaml]
 
