@@ -38,6 +38,6 @@ fi
 
 echo "Server application values - payload/2-services/namespace/${NAMESPACE}/${NAME}/values-${SERVER_NAME}.yaml"
 cat "payload/2-services/namespace/${NAMESPACE}/${NAME}/values-${SERVER_NAME}.yaml"
-sleep 3m
+sleep 5m
 cd ..
 rm -rf .testrepo
