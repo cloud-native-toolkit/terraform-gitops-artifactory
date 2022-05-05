@@ -23,6 +23,7 @@ This module makes use of the output from other modules:
 - Cluster - github.com/ibm-garage-cloud/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
 
+
 ## Example usage
 
 ```hcl-terraform
