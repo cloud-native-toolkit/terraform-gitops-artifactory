@@ -8,7 +8,7 @@ The module depends on the following software components:
 
 ### Command-line tools
 
-- terraform - v12
+- terraform - v0.15
 - git
 
 ### Terraform providers
@@ -23,6 +23,7 @@ This module makes use of the output from other modules:
 - Cluster - github.com/ibm-garage-cloud/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
 
+
 ## Example usage
 
 ```hcl-terraform
@@ -32,9 +33,7 @@ module "gitops_artifactory" {
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
   namespace = module.gitops_namespace.name
-  cluster_ingress_hostname = module.dev_cluster.platform.ingress
-  cluster_type             = module.dev_cluster.platform.type_code
-  tls_secret_name          = module.dev_cluster.platform.tls_secret
+  server_name = module.gitops.server_name
 }
 ```
 
