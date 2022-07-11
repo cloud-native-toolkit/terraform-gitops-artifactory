@@ -190,7 +190,7 @@ module setup_group_scc {
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
   namespace = var.namespace
-  service_account = ""
+  service_account = local.sa_name
   sccs = ["anyuid"]
   server_name = var.server_name
   group = true
