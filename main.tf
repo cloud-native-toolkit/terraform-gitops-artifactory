@@ -183,7 +183,7 @@ module "config_service_account" {
 }
 
 module setup_group_scc {
-  depends_on = [module.service_account,module.config_service_account]
+  depends_on = [module.service_account]
 
   source = "github.com/cloud-native-toolkit/terraform-gitops-sccs.git"
 
