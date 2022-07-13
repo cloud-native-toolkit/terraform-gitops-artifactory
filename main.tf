@@ -28,7 +28,7 @@ locals {
         storageClassName = ""
         size = "5Gi"
       }
-      uid = 0
+      #uid = 0
     }
     ingress = {
       enabled = false
