@@ -162,7 +162,7 @@ module "service_account" {
 module "config_service_account" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
 
-  sccs = ["anyuid", "privileged"]
+  #sccs = ["anyuid", "privileged"]
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
   namespace = var.namespace
