@@ -28,7 +28,7 @@ locals {
         storageClassName = ""
         size = "5Gi"
       }
-      uid = 1000760000
+      uid = 0
     }
     ingress = {
       enabled = false
@@ -51,7 +51,7 @@ locals {
         storageClassName = var.storage_class
         size = "5Gi"
       }
-      uid = 1000760000
+      uid = 0
     }
     ingress = {
       enabled = var.cluster_type == "kubernetes"
