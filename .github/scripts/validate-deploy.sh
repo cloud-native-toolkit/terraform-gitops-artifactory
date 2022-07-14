@@ -39,7 +39,7 @@ fi
 
 echo "Server application values - payload/2-services/namespace/${NAMESPACE}/${NAME}/values-${SERVER_NAME}.yaml"
 cat "payload/2-services/namespace/${NAMESPACE}/${NAME}/values-${SERVER_NAME}.yaml"
-sleep 7m
+sleep 11m
 kubectl wait --for=condition=complete job/${JOB} || exit 1
 cd ..
 rm -rf .testrepo
