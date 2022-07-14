@@ -3,7 +3,7 @@ locals {
   yaml_dir               = "${path.cwd}/.tmp/artifactory"
   ingress_host           = "artifactory-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url            = "https://${local.ingress_host}"
-  service_name           = "artifactory-artifactory"
+  service_name           = "artifactory"
   sa_name                = "artifactory-artifactory"
   config_sa_name         = "artifactory-config"
   type  = "base"
