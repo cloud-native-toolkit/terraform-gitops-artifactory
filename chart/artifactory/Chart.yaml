@@ -22,13 +22,13 @@ appVersion: 1.16.0
 
 dependencies:
   - name: artifactory
-    version: 9.4.5
+    version: 107.39.4
     repository: https://charts.jfrog.io/
   - name: ocp-route
-    version: 0.4.0
+    version: 0.5.0
     repository: https://charts.cloudnativetoolkit.dev
   - name: tool-config
-    version: 0.9.0
+    version: 0.13.0
     repository: https://charts.cloudnativetoolkit.dev
   - name: setup-job
     version: 0.3.0

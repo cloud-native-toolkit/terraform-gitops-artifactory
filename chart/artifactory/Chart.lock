@@ -1,0 +1,15 @@
+dependencies:
+- name: artifactory
+  repository: https://charts.jfrog.io/
+  version: 107.39.4
+- name: ocp-route
+  repository: https://charts.cloudnativetoolkit.dev
+  version: 0.4.0
+- name: tool-config
+  repository: https://charts.cloudnativetoolkit.dev
+  version: 0.9.0
+- name: setup-job
+  repository: https://charts.cloudnativetoolkit.dev
+  version: 0.3.0
+digest: sha256:abd116ebb967d7b9613852c12d17a72dc803b0d3888974480604ccf167d1b989
+generated: "2022-07-06T23:46:40.337392+05:30"
