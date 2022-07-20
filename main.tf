@@ -95,7 +95,7 @@ locals {
   }
   tool_config            = {
     name = "Artifactory"
-    privateUrl = "http://${local.service_name}.${var.namespace}:8082"
+    url = "http://${local.service_name}.${var.namespace}:8082"
     username = "admin"
     password = "password"
     otherSecret = {
