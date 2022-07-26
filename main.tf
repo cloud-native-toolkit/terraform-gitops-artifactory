@@ -81,7 +81,7 @@ locals {
   }
   ocp_route_config       = {
     nameOverride = "artifactory"
-    targetPort = "router"
+    targetPort = "http-router"
     app = "artifactory"
     serviceName = local.service_name
     termination = "edge"
