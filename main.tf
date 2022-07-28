@@ -105,6 +105,7 @@ locals {
       ADMIN_ACCESS_PASSWORD = "admin"
     }
     applicationMenu = false
+    enableConsoleLink = true
   }
   job_config             = {
     name = "artifactory"
