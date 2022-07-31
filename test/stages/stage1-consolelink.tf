@@ -1,5 +1,5 @@
 module "consolelink" {
-  source = "https://github.com/cloud-native-toolkit/terraform-gitops-console-link-job.git"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-console-link-job.git"
 
   config_repo = module.gitops.config_repo
   config_token = module.gitops.config_token
