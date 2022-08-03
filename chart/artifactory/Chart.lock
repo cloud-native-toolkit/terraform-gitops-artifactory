@@ -7,9 +7,9 @@ dependencies:
   version: 0.5.0
 - name: tool-config
   repository: https://charts.cloudnativetoolkit.dev
-  version: 0.14.0
+  version: 0.13.0
 - name: setup-job
   repository: https://charts.cloudnativetoolkit.dev
   version: 0.3.0
-digest: sha256:79fd619099b4e80353ff81e8da73c12d40e8ce0d6d7945065d5969f148ef0671
-generated: "2022-08-01T12:14:23.907654+05:30"
+digest: sha256:d7dd93f72f9d1e7e14a1dd9a4289c413f29a560ce0e5f3936e12d32f6fbad1b4
+generated: "2022-08-03T23:30:13.18043+05:30"
