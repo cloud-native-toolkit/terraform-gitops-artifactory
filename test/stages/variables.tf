@@ -9,6 +9,11 @@ variable "cluster_password" {
   description = "The password for AWS access"
 }
 
+variable "cluster_ca_cert" {
+  type        = string
+  description = "The certificate authority for the cluster"
+}
+
 variable "server_url" {
   type        = string
 }
@@ -75,3 +80,23 @@ variable "kubeseal_namespace" {
 
 variable "cp_entitlement_key" {
 }
+#variable "gitea_username" {
+#  type = string
+#  description = "The username for the instance"
+#  default = "gitea-admin"
+#}
+#variable "gitea_password" {
+#  type = string
+#  description = "The password for the instance"
+#  default = ""
+#}
+#variable "gitea_instance_name" {
+#  type = string
+#  description = "The name for the instance"
+#  default = "gitea"
+#}
+#variable "gitea_namespace_name" {
+#  type = string
+#  description = "The value that should be used for the namespace"
+#  default = "gitea"
+#}

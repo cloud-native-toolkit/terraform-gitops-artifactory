@@ -3,7 +3,7 @@ locals {
   yaml_dir               = "${path.cwd}/.tmp/artifactory"
   ingress_host           = "artifactory-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url            = "https://${local.ingress_host}"
-  service_name           = "artifactory-artifactory"
+  service_name           = "artifactory"
   sa_name                = "artifactory-artifactory"
   config_sa_name         = "artifactory-config"
   type  = "base"
@@ -18,7 +18,7 @@ locals {
     nameOverride = "artifactory"
     artifactory = {
       image = {
-        repository = "docker.bintray.io/jfrog/artifactory-oss"
+        repository = "jfrog/artifactory-oss"
       }
       adminAccess = {
         password = "admin"
@@ -28,7 +28,7 @@ locals {
         storageClassName = ""
         size = "5Gi"
       }
-      uid = 0
+      uid = 1030
     }
     ingress = {
       enabled = false
@@ -81,7 +81,7 @@ locals {
   }
   ocp_route_config       = {
     nameOverride = "artifactory"
-    targetPort = "router"
+    targetPort = "http-router"
     app = "artifactory"
     serviceName = local.service_name
     termination = "edge"
@@ -104,6 +104,7 @@ locals {
       ADMIN_ACCESS_PASSWORD = "admin"
     }
     applicationMenu = false
+    enableConsoleLink = true
   }
   job_config             = {
     name = "artifactory"
@@ -131,6 +132,7 @@ locals {
 
   values_file = "values-${var.server_name}.yaml"
 }
+
 
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
@@ -161,6 +163,7 @@ module "service_account" {
 module "config_service_account" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
 
+  #sccs = ["anyuid", "privileged"]
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
   namespace = var.namespace
@@ -178,6 +181,20 @@ module "config_service_account" {
     ]
   }]
   server_name = var.server_name
+}
+
+module setup_group_scc {
+  depends_on = [module.service_account]
+
+  source = "github.com/cloud-native-toolkit/terraform-gitops-sccs.git"
+
+  gitops_config = var.gitops_config
+  git_credentials = var.git_credentials
+  namespace = var.namespace
+  service_account = local.sa_name
+  sccs = ["anyuid"]
+  server_name = var.server_name
+  group = true
 }
 
 resource null_resource setup_gitops {
