@@ -43,7 +43,7 @@ validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values-${SERVER_NAME}.yaml"
 
 check_k8s_namespace "${NAMESPACE}"
-
+sleep 11m
 check_k8s_resource "${NAMESPACE}" "job" "${JOB}"
 cd ..
 rm -rf .testrepo
