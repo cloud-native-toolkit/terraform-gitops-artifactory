@@ -163,8 +163,8 @@ resource gitops_service_account config_sa {
 
   sccs = ["anyuid", "privileged"]
   rules {
-    api_groups = [""],
-    resources = ["secrets", "configmaps"],
+    api_groups = [""]
+    resources = ["secrets", "configmaps"]
     verbs = ["*"]
   }
 }
