@@ -13,7 +13,7 @@ The module depends on the following software components:
 
 ### Terraform providers
 
-- None
+- gitops (cloud-native-toolkit/gitops)
 
 ## Module dependencies
 
