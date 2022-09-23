@@ -9,10 +9,11 @@ The module depends on the following software components:
 ### Command-line tools
 
 - terraform - v0.15
+- git
 
 ### Terraform providers
 
-- gitops (cloud-native-toolkit/gitops)
+- None
 
 ## Module dependencies
 
@@ -22,9 +23,8 @@ This module makes use of the output from other modules:
 - Cluster - github.com/ibm-garage-cloud/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
 
-## Example usage
 
-See [examples/](./examples) for a more complete example.
+## Example usage
 
 ```hcl-terraform
 module "gitops_artifactory" {
