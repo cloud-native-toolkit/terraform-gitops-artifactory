@@ -1,5 +1,4 @@
 locals {
-  bin_dir                = module.setup_clis.bin_dir
   yaml_dir               = "${path.cwd}/.tmp/artifactory"
   ingress_host           = "artifactory-${var.namespace}.${var.cluster_ingress_hostname}"
   ingress_url            = "https://${local.ingress_host}"
@@ -133,11 +132,6 @@ locals {
   values_file = "values-${var.server_name}.yaml"
 }
 
-
-module setup_clis {
-  source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
-}
-
 resource null_resource create_yaml {
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml.sh '${local.yaml_dir}' '${local.values_file}'"
@@ -149,52 +143,30 @@ resource null_resource create_yaml {
   }
 }
 
-module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.9.0"
-
-  gitops_config = var.gitops_config
-  git_credentials = var.git_credentials
-  namespace = var.namespace
+resource gitops_service_account sa {
   name = local.sa_name
+  namespace = var.namespace
+  server_name = var.server_name
+  config = yamlencode(var.gitops_config)
+  credentials = yamlencode(var.git_credentials)
+
+  all_service_accounts = true
   sccs = ["anyuid", "privileged"]
-  server_name = var.server_name
 }
 
-module "config_service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.9.0"
-
-  #sccs = ["anyuid", "privileged"]
-  gitops_config = var.gitops_config
-  git_credentials = var.git_credentials
-  namespace = var.namespace
+resource gitops_service_account config_sa {
   name = local.config_sa_name
-  rbac_rules = [{
-    apiGroups = [
-      ""
-    ]
-    resources = [
-      "secrets",
-      "configmaps"
-    ]
-    verbs = [
-      "*"
-    ]
-  }]
-  server_name = var.server_name
-}
-
-module setup_group_scc {
-  depends_on = [module.service_account]
-
-  source = "github.com/cloud-native-toolkit/terraform-gitops-sccs.git?ref=v1.4.1"
-
-  gitops_config = var.gitops_config
-  git_credentials = var.git_credentials
   namespace = var.namespace
-  service_account = local.sa_name
-  sccs = ["anyuid"]
   server_name = var.server_name
-  group = true
+  config = yamlencode(var.gitops_config)
+  credentials = yamlencode(var.git_credentials)
+
+  sccs = ["anyuid", "privileged"]
+  rules {
+    api_groups = [""],
+    resources = ["secrets", "configmaps"],
+    verbs = ["*"]
+  }
 }
 
 resource gitops_module module {
