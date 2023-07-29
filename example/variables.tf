@@ -2,20 +2,24 @@
 variable cluster_username { 
   type        = string
   description = "The username for AWS access"
+  default = ""
 }
 
 variable "cluster_password" {
   type        = string
   description = "The password for AWS access"
+  default = ""
 }
 
 variable "cluster_ca_cert" {
   type        = string
   description = "The certificate authority for the cluster"
+  default = ""
 }
 
 variable "server_url" {
   type        = string
+  default = ""
 }
 
 variable "bootstrap_prefix" {
@@ -26,6 +30,7 @@ variable "bootstrap_prefix" {
 variable "namespace" {
   type        = string
   description = "Namespace for tools"
+  default = ""
 }
 
 variable "cluster_name" {
@@ -37,6 +42,7 @@ variable "cluster_name" {
 variable "cluster_type" {
   type        = string
   description = "The type of cluster that should be created (openshift or kubernetes)"
+  default = ""
 }
 
 variable "cluster_exists" {
@@ -48,6 +54,7 @@ variable "cluster_exists" {
 variable "git_token" {
   type        = string
   description = "Git token"
+  default = ""
 }
 
 variable "git_host" {
@@ -72,6 +79,7 @@ variable "gitops_namespace" {
 }
 
 variable "git_username" {
+  default = ""
 }
 
 variable "kubeseal_namespace" {
