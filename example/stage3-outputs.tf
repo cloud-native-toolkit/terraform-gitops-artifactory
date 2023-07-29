@@ -12,6 +12,7 @@ resource null_resource write_outputs {
         layer       = module.gitops_artifactory.layer
         layer_dir   = module.gitops_artifactory.layer == "infrastructure" ? "1-infrastructure" : (module.gitops_artifactory.layer == "services" ? "2-services" : "3-applications")
         type        = module.gitops_artifactory.type
+        ingress_host = module.gitops_artifactory.ingress_host
       })
     }
   }

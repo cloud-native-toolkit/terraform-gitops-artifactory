@@ -22,7 +22,7 @@ appVersion: 1.16.0
 
 dependencies:
   - name: artifactory
-    version: 107.39.4
+    version: 107.63.7
     repository: https://charts.jfrog.io/
   - name: ocp-route
     version: 0.5.0

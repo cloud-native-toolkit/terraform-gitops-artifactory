@@ -28,7 +28,12 @@ BRANCH=$(jq -r '.branch // "main"' gitops-output.json)
 SERVER_NAME=$(jq -r '.server_name // "default"' gitops-output.json)
 LAYER=$(jq -r '.layer_dir // "2-services"' gitops-output.json)
 TYPE=$(jq -r '.type // "base"' gitops-output.json)
+HOST=$(jq -r '.ingress_host // empty' gitops-output.json)
 JOB="artifactory-config"
+
+USERNAME="admin"
+PASSWORD="admin"
+
 mkdir -p .testrepo
 
 git clone https://${GIT_TOKEN}@${GIT_REPO} .testrepo
@@ -42,8 +47,12 @@ set -e
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values.yaml"
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values-${SERVER_NAME}.yaml"
 
+
+
 check_k8s_namespace "${NAMESPACE}"
 sleep 11m
 check_k8s_resource "${NAMESPACE}" "job" "${JOB}"
 cd ..
 rm -rf .testrepo
+
+sleep 30m
