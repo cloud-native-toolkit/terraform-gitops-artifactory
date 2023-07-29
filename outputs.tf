@@ -34,3 +34,9 @@ output "type" {
   value       = local.type
   depends_on  = [gitops_module.module]
 }
+
+output "ingress_host" {
+  description = "The url where the instance can be accessed"
+  value       = local.ingress_host
+  depends_on  = [gitops_module.module]
+}
